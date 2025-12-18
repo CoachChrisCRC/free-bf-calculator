@@ -30,6 +30,7 @@
             --toggle-icon-color: #9ca3af;
             --toggle-active-icon: #1f2937;
             --modal-overlay: rgba(0, 0, 0, 0.4);
+            --highlight-row: #f3f4f6;
         }
 
         [data-theme="dark"] {
@@ -53,6 +54,7 @@
             --toggle-icon-color: #525252;
             --toggle-active-icon: #ffffff;
             --modal-overlay: rgba(0, 0, 0, 0.8);
+            --highlight-row: #262626;
         }
 
         body {
@@ -177,6 +179,11 @@
         
         #modal-overlay.active .modal-content {
             transform: scale(1);
+        }
+
+        .category-row-active {
+            background-color: var(--highlight-row) !important;
+            box-shadow: inset 0 0 0 1px var(--text-heading);
         }
     </style>
 </head>
@@ -341,7 +348,7 @@
                     </div>
                     
                     <div class="overflow-hidden rounded-xl border" style="border-color: var(--border-color)">
-                        <table class="w-full text-[10px] text-left border-collapse">
+                        <table class="w-full text-[10px] text-left border-collapse" id="category-table">
                             <thead>
                                 <tr class="border-b" style="background-color: var(--bg-toggle); border-color: var(--border-color)">
                                     <th class="p-2 font-black uppercase">Category</th>
@@ -350,27 +357,27 @@
                                 </tr>
                             </thead>
                             <tbody style="color: var(--text-main)">
-                                <tr class="border-b" style="border-color: var(--border-color)">
+                                <tr class="border-b" style="border-color: var(--border-color)" data-category="Essential Fat">
                                     <td class="p-2 font-bold">Essential Fat</td>
                                     <td class="p-2">2-5%</td>
                                     <td class="p-2">10-13%</td>
                                 </tr>
-                                <tr class="border-b" style="border-color: var(--border-color)">
+                                <tr class="border-b" style="border-color: var(--border-color)" data-category="Athletic">
                                     <td class="p-2 font-bold">Athletic</td>
                                     <td class="p-2">6-13%</td>
                                     <td class="p-2">14-20%</td>
                                 </tr>
-                                <tr class="border-b" style="border-color: var(--border-color)">
+                                <tr class="border-b" style="border-color: var(--border-color)" data-category="Fitness">
                                     <td class="p-2 font-bold">Fitness</td>
                                     <td class="p-2">14-17%</td>
                                     <td class="p-2">21-24%</td>
                                 </tr>
-                                <tr class="border-b" style="border-color: var(--border-color)">
+                                <tr class="border-b" style="border-color: var(--border-color)" data-category="Acceptable">
                                     <td class="p-2 font-bold">Acceptable</td>
                                     <td class="p-2">18-24%</td>
                                     <td class="p-2">25-31%</td>
                                 </tr>
-                                <tr style="background-color: var(--bg-toggle)">
+                                <tr data-category="High/Obese">
                                     <td class="p-2 font-bold">High/Obese</td>
                                     <td class="p-2">25%+</td>
                                     <td class="p-2">32%+</td>
@@ -411,6 +418,7 @@
             const hipInputContainer = document.getElementById('hip-input-container');
             const themeToggle = document.getElementById('theme-toggle');
             const themeStatus = document.getElementById('theme-status');
+            const categoryTable = document.getElementById('category-table');
             const body = document.body;
 
             const modalOverlay = document.getElementById('modal-overlay');
@@ -521,7 +529,6 @@
                     labelNeck.textContent = 'Neck (cm)'; labelWaist.textContent = 'Waist (cm)'; labelHip.textContent = 'Hips (cm)';
                     inputHeightCm.required = true;
                     
-                    // Update Metric Placeholders
                     inputWeight.placeholder = "e.g. 75.0";
                     inputHeightCm.placeholder = "e.g. 178";
                     inputNeck.placeholder = "e.g. 38.5";
@@ -536,7 +543,6 @@
                     labelNeck.textContent = 'Neck (in)'; labelWaist.textContent = 'Waist (in)'; labelHip.textContent = 'Hips (in)';
                     inputHeightCm.required = false;
 
-                    // Update Imperial Placeholders
                     inputWeight.placeholder = "e.g. 165.0";
                     inputHeightFt.placeholder = "ft (5)";
                     inputHeightIn.placeholder = "in (10)";
@@ -560,6 +566,13 @@
                 hipInputContainer.classList.toggle('active', isFemale);
                 inputHip.required = isFemale;
             });
+
+            function highlightCategoryRow(category) {
+                const rows = categoryTable.querySelectorAll('tbody tr');
+                rows.forEach(row => row.classList.remove('category-row-active'));
+                const activeRow = categoryTable.querySelector(`tr[data-category="${category}"]`);
+                if (activeRow) activeRow.classList.add('category-row-active');
+            }
 
             function generateInterpretation(gender, bf, category) {
                 let text = `Your estimated body fat percentage of <strong>${bf.toFixed(1)}%</strong> places you in the <strong>${category}</strong> category for ${gender === 'male' ? 'men' : 'women'}. `;
@@ -641,6 +654,9 @@
                 document.getElementById('fat-mass-display').textContent = `${fatMass.toFixed(1)} ${unitLabel}`;
                 document.getElementById('lean-mass-display').textContent = `${leanMass.toFixed(1)} ${unitLabel}`;
                 document.getElementById('bf-traditional-category').textContent = category;
+                
+                highlightCategoryRow(category);
+                
                 document.getElementById('result-interpretation-combined').innerHTML = generateInterpretation(gender, bf, category);
                 document.getElementById('guidance-list').innerHTML = generateGuidance(category);
                 resultsDiv.classList.remove('hidden');
@@ -650,6 +666,7 @@
             document.getElementById('reset-btn').onclick = () => {
                 form.reset(); resultsDiv.classList.add('hidden');
                 hipInputContainer.classList.remove('active');
+                categoryTable.querySelectorAll('tbody tr').forEach(row => row.classList.remove('category-row-active'));
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
         });
