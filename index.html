@@ -162,7 +162,6 @@
         [data-theme="light"] .icon-sun { color: var(--btn-text-primary); }
         [data-theme="dark"] .icon-moon { color: var(--btn-text-primary); }
 
-        /* Modal Styles */
         #modal-overlay {
             background-color: var(--modal-overlay);
             backdrop-filter: blur(4px);
@@ -308,15 +307,12 @@
                 </button>
             </form>
 
-            <!-- RESULTS SECTION -->
             <div id="results" class="hidden mt-10 pt-8 space-y-8" style="border-top: 1px solid var(--border-color)">
-                <!-- Main Score Card -->
                 <div class="p-8 rounded-3xl result-box text-center shadow-inner">
                     <p class="text-[10px] font-black uppercase tracking-widest mb-1" style="color: var(--text-muted)">Your Estimated Body Fat</p>
                     <p class="text-7xl font-brand font-bold" style="color: var(--text-heading)"><span id="bf-percentage">0.0%</span></p>
                     <div class="inline-block mt-4 px-4 py-1.5 text-xs font-black uppercase rounded-full" id="bf-traditional-category" style="background-color: var(--bg-btn-primary); color: var(--btn-text-primary)"></div>
                     
-                    <!-- Fat Mass & Lean Mass Split (New from Block 2 logic) -->
                     <div class="grid grid-cols-2 gap-4 mt-8 pt-6 border-t" style="border-color: var(--border-color)">
                         <div class="text-left">
                             <p class="text-[9px] font-black uppercase tracking-widest opacity-60" style="color: var(--text-muted)">Fat Mass</p>
@@ -329,13 +325,19 @@
                     </div>
                 </div>
 
-                <!-- About Result Section (Dynamic Interpretation from Block 2) -->
-                <div class="space-y-4">
-                    <h4 class="text-xs font-black uppercase tracking-widest flex items-center gap-2" style="color: var(--text-heading)">
-                        <i data-lucide="list" class="w-4 h-4"></i> About This Result
-                    </h4>
-                    <div id="result-interpretation" class="text-[11px] leading-relaxed p-4 rounded-xl border italic" style="color: var(--text-accent); border-color: var(--border-color)">
-                        <!-- Populated by JS -->
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-widest flex items-center gap-2 mb-3" style="color: var(--text-heading)">
+                            <i data-lucide="info" class="w-4 h-4"></i> About This Result
+                        </h4>
+                        <div class="text-[11px] leading-relaxed p-5 rounded-2xl border bg-opacity-10" style="color: var(--text-accent); border-color: var(--border-color); background-color: var(--bg-toggle)">
+                            <p class="mb-3">
+                                <strong style="color: var(--text-heading)">The US Navy Method:</strong> This estimation is based on the 1984 US Navy Body Fat Formula, which uses anthropometric measurements to calculate body density. While not as precise as a DEXA scan, it provides a reliable, accessible baseline for tracking body composition changes over time.
+                            </p>
+                            <div id="result-interpretation-combined" class="italic">
+                                <!-- Dynamic Interpretation populated by JS -->
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="overflow-hidden rounded-xl border" style="border-color: var(--border-color)">
@@ -354,7 +356,7 @@
                                     <td class="p-2">10-13%</td>
                                 </tr>
                                 <tr class="border-b" style="border-color: var(--border-color)">
-                                    <td class="p-2 font-bold">Athletes</td>
+                                    <td class="p-2 font-bold">Athletic</td>
                                     <td class="p-2">6-13%</td>
                                     <td class="p-2">14-20%</td>
                                 </tr>
@@ -364,12 +366,12 @@
                                     <td class="p-2">21-24%</td>
                                 </tr>
                                 <tr class="border-b" style="border-color: var(--border-color)">
-                                    <td class="p-2 font-bold">Average</td>
+                                    <td class="p-2 font-bold">Acceptable</td>
                                     <td class="p-2">18-24%</td>
                                     <td class="p-2">25-31%</td>
                                 </tr>
                                 <tr style="background-color: var(--bg-toggle)">
-                                    <td class="p-2 font-bold">Obese</td>
+                                    <td class="p-2 font-bold">High/Obese</td>
                                     <td class="p-2">25%+</td>
                                     <td class="p-2">32%+</td>
                                 </tr>
@@ -378,7 +380,6 @@
                     </div>
                 </div>
 
-                <!-- Support and Guidance Section (Dynamic List from Block 2) -->
                 <div class="p-6 rounded-2xl space-y-4" style="background-color: var(--bg-toggle)">
                     <h4 class="text-xs font-black uppercase tracking-widest flex items-center gap-2" style="color: var(--text-heading)">
                         <i data-lucide="shield-check" class="w-4 h-4"></i> Support & Guidance
@@ -422,15 +423,15 @@
             const modalContent = {
                 neck: {
                     title: "Neck Measurement",
-                    text: "Measure the neck just below the larynx (Adam's apple), with the tape sloping slightly downward to the front. Keep your neck relaxed and look straight ahead."
+                    text: "Stand upright with your head facing forward. Place the tape measure just below the larynx (Adam's apple), ensuring the tape is level. Do not pull the tape tight; allow it to rest gently on the skin. Take the measurement on a normal exhale."
                 },
                 waist: {
                     title: "Waist Measurement",
-                    text: "For Men: Measure horizontally at the level of the navel. For Women: Measure horizontally at the narrowest point of the abdomen, usually just above the navel."
+                    text: "For men and women, measure horizontally around the abdomen at the level of the navel (belly button). Ensure the tape measure is level all the way around the body. Take the measurement on a normal exhale."
                 },
                 hip: {
                     title: "Hip Measurement",
-                    text: "Women Only: Measure the horizontal circumference at the largest point of the buttocks or hips. Ensure the tape is level and parallel to the floor."
+                    text: "This measurement is only required for females. Measure horizontally around the widest part of the hips/buttocks. Ensure the tape measure is level."
                 }
             };
 
@@ -453,15 +454,10 @@
                 }, 300);
             };
 
-            infoBtns.forEach(btn => {
-                btn.addEventListener('click', () => openInfoModal(btn.dataset.modal));
-            });
-
+            infoBtns.forEach(btn => btn.addEventListener('click', () => openInfoModal(btn.dataset.modal)));
             closeModal.addEventListener('click', closeInfoModal);
             modalConfirm.addEventListener('click', closeInfoModal);
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) closeInfoModal();
-            });
+            modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeInfoModal(); });
 
             const KG_TO_LBS = 2.20462;
             const CM_TO_IN = 0.393701;
@@ -490,9 +486,7 @@
             const convertInputs = (toUnit) => {
                 if (inputWeight.value) {
                     const weight = parseFloat(inputWeight.value);
-                    inputWeight.value = toUnit === 'imperial' 
-                        ? (weight * KG_TO_LBS).toFixed(1) 
-                        : (weight / KG_TO_LBS).toFixed(1);
+                    inputWeight.value = toUnit === 'imperial' ? (weight * KG_TO_LBS).toFixed(1) : (weight / KG_TO_LBS).toFixed(1);
                 }
                 if (toUnit === 'imperial') {
                     if (inputHeightCm.value) {
@@ -502,18 +496,14 @@
                     }
                 } else {
                     if (inputHeightFt.value || inputHeightIn.value) {
-                        const ft = parseFloat(inputHeightFt.value || 0);
-                        const inc = parseFloat(inputHeightIn.value || 0);
-                        const totalInches = (ft * 12) + inc;
+                        const totalInches = (parseFloat(inputHeightFt.value || 0) * 12) + parseFloat(inputHeightIn.value || 0);
                         inputHeightCm.value = (totalInches / CM_TO_IN).toFixed(1);
                     }
                 }
                 [inputNeck, inputWaist, inputHip].forEach(inp => {
                     if (inp.value) {
                         const val = parseFloat(inp.value);
-                        inp.value = toUnit === 'imperial'
-                            ? (val * CM_TO_IN).toFixed(1)
-                            : (val / CM_TO_IN).toFixed(1);
+                        inp.value = toUnit === 'imperial' ? (val * CM_TO_IN).toFixed(1) : (val / CM_TO_IN).toFixed(1);
                     }
                 });
             };
@@ -522,50 +512,22 @@
                 if (currentUnit === unit) return;
                 convertInputs(unit);
                 currentUnit = unit;
-
                 if (unit === 'metric') {
                     btnMetric.classList.replace('unit-btn-inactive', 'unit-btn-active');
                     btnImperial.classList.replace('unit-btn-active', 'unit-btn-inactive');
                     metricHeightBox.classList.remove('hidden');
                     imperialHeightBox.classList.add('hidden');
-                    
-                    labelWeight.textContent = 'Weight (kg)';
-                    labelHeight.textContent = 'Height (cm)';
-                    labelNeck.textContent = 'Neck (cm)';
-                    labelWaist.textContent = 'Waist (cm)';
-                    labelHip.textContent = 'Hips (cm)';
-
-                    inputWeight.placeholder = 'e.g. 80.5';
-                    inputHeightCm.placeholder = 'e.g. 180';
-                    inputNeck.placeholder = 'e.g. 40.0';
-                    inputWaist.placeholder = 'e.g. 90.0';
-                    inputHip.placeholder = 'e.g. 100.0';
-
+                    labelWeight.textContent = 'Weight (kg)'; labelHeight.textContent = 'Height (cm)';
+                    labelNeck.textContent = 'Neck (cm)'; labelWaist.textContent = 'Waist (cm)'; labelHip.textContent = 'Hips (cm)';
                     inputHeightCm.required = true;
-                    inputHeightFt.required = false;
-                    inputHeightIn.required = false;
                 } else {
                     btnImperial.classList.replace('unit-btn-inactive', 'unit-btn-active');
                     btnMetric.classList.replace('unit-btn-active', 'unit-btn-inactive');
                     metricHeightBox.classList.add('hidden');
                     imperialHeightBox.classList.remove('hidden');
-
-                    labelWeight.textContent = 'Weight (lbs)';
-                    labelHeight.textContent = 'Height (ft/in)';
-                    labelNeck.textContent = 'Neck (in)';
-                    labelWaist.textContent = 'Waist (in)';
-                    labelHip.textContent = 'Hips (in)';
-
-                    inputWeight.placeholder = 'e.g. 175';
-                    inputHeightFt.placeholder = 'Ft (e.g. 5)';
-                    inputHeightIn.placeholder = 'In (e.g. 11)';
-                    inputNeck.placeholder = 'e.g. 15.5';
-                    inputWaist.placeholder = 'e.g. 34.0';
-                    inputHip.placeholder = 'e.g. 40.0';
-
+                    labelWeight.textContent = 'Weight (lbs)'; labelHeight.textContent = 'Height (ft/in)';
+                    labelNeck.textContent = 'Neck (in)'; labelWaist.textContent = 'Waist (in)'; labelHip.textContent = 'Hips (in)';
                     inputHeightCm.required = false;
-                    inputHeightFt.required = true;
-                    inputHeightIn.required = true;
                 }
             };
 
@@ -573,65 +535,58 @@
             btnImperial.addEventListener('click', () => updateUnits('imperial'));
 
             themeToggle.addEventListener('click', () => {
-                const currentTheme = body.getAttribute('data-theme');
-                const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+                const nextTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
                 body.setAttribute('data-theme', nextTheme);
                 themeStatus.textContent = nextTheme === 'light' ? 'Light Mode' : 'Dark Mode';
             });
 
             genderSelect.addEventListener('change', () => {
-                if (genderSelect.value === 'female') {
-                    hipInputContainer.classList.add('active');
-                    inputHip.required = true;
-                } else {
-                    hipInputContainer.classList.remove('active');
-                    inputHip.required = false;
-                }
+                const isFemale = genderSelect.value === 'female';
+                hipInputContainer.classList.toggle('active', isFemale);
+                inputHip.required = isFemale;
             });
 
-            // Interpretation Generator (Combined from Block 2 logic)
             function generateInterpretation(gender, bf, category) {
                 let text = `Your estimated body fat percentage of <strong>${bf.toFixed(1)}%</strong> places you in the <strong>${category}</strong> category for ${gender === 'male' ? 'men' : 'women'}. `;
-                
-                const maps = {
+                const map = {
                     "Essential Fat": "This represents the minimum fat required for physiological function. Maintaining this level is extremely challenging and may not be sustainable long-term.",
-                    "Athlete": "This is a typical range for high-level athletes focused on performance and low body weight. It reflects high lean mass and excellent conditioning.",
-                    "Fitness": "This range is associated with general fitness, often reflecting a balanced diet and regular exercise. It is a healthy and sustainable target for most active individuals.",
-                    "Average": "This is a healthy and acceptable range for the general population. Goals focused on muscle gain or improved aesthetics might target the 'Fitness' range.",
-                    "Obese": "This range may be associated with increased health risks. It is recommended to consult a professional for guidance on safe and healthy weight management strategies."
+                    "Athletic": "This is a typical range for high-level athletes focused on performance and low body weight. It generally reflects high lean mass and excellent conditioning.",
+                    "Fitness": "This range is associated with general fitness, often reflecting a balanced diet and regular exercise routine. It is a healthy and sustainable target for most active individuals.",
+                    "Acceptable": "This is a healthy and acceptable range for the general population. Goals focused on muscle gain or improved aesthetics might target the 'Fitness' or 'Athletic' range.",
+                    "High/Obese": "This range may be associated with increased health risks, including cardiovascular issues. It is highly recommended to consult a healthcare professional for guidance on safe and healthy weight management strategies."
                 };
-                
-                return text + (maps[category] || "");
+                return text + (map[category] || "");
             }
 
-            // Guidance Generator (Combined from Block 2 logic)
             function generateGuidance(category) {
                 let items = [
-                    "Regularly monitor your measurements (every 1-4 weeks) under the same conditions to track long-term trends.",
-                    "Focus on a balanced diet rich in whole foods, lean protein, and fiber for satiety.",
-                    "Ensure adequate sleep (7-9 hours) as it significantly impacts recovery and metabolism."
+                    "Regularly monitor your measurements (e.g., every 1-4 weeks) at the same time and conditions to track long-term trends accurately.",
+                    "Focus on a balanced diet rich in whole foods, lean protein, and fiber for satiety and muscle maintenance.",
+                    "Ensure adequate sleep (7-9 hours) as it significantly impacts hormones related to recovery and fat storage."
                 ];
 
-                if (category === "Essential Fat") {
-                    items.push("<strong>Goal: Maintenance/Health.</strong> Focus on nutrient-dense food and ensure sufficient calories to support hormonal balance.");
-                } else if (category === "Athlete") {
-                    items.push("<strong>Goal: Performance.</strong> Optimize training-specific nutrition (timing protein/carbs) to maintain lean mass and recovery.");
-                } else if (category === "Fitness" || category === "Average") {
-                    items.push("<strong>Goal: Body Composition.</strong> Incorporate resistance training 2-4 times per week to preserve and build Lean Body Mass.");
-                    items.push("Prioritize high protein intake to support existing muscle if you are in a caloric deficit.");
-                } else if (category === "Obese") {
-                    items.push("<strong>Goal: Sustainable Reduction.</strong> Focus on a consistent, small caloric deficit (250-500 kcal daily) for healthy fat loss.");
-                    items.push("<strong>Resistance Training:</strong> Start with full-body compound movements (squats, presses, rows) focus on safe form.");
-                    items.push("Include low-impact physical activity (like daily walking) and gradually increase intensity.");
+                if (category === 'Essential Fat') {
+                    items.push("<strong>Goal: Maintenance/Small Increase.</strong> As this is the minimum physiological fat level, focus on nutrient-dense food and potentially a small, controlled increase in body fat for long-term health and hormonal balance.");
+                    items.push("Ensure sufficient caloric intake to match your high activity level and fuel training.");
+                } else if (category === 'Athletic') {
+                    items.push("<strong>Goal: Maintenance/Performance Improvement.</strong> Focus on optimizing training-specific nutrition (timing protein/carbs) to maintain low body fat while maximizing lean mass and recovery.");
+                    items.push("Prioritize post-workout nutrition (protein and carbs) to optimize muscle recovery and growth.");
+                } else if (category === 'Fitness' || category === 'Acceptable') {
+                    items.push("<strong>Goal: Maintenance/Improvement.</strong> If aiming for a lower body fat percentage, focus on a sustainable, small caloric deficit alongside robust training.");
+                    items.push("Incorporate resistance training 2-4 times per week to preserve and build Lean Body Mass, which boosts metabolism.");
+                    items.push("If maintaining, ensure energy intake matches output and prioritize high protein intake to support existing muscle mass.");
+                } else if (category === 'High/Obese') {
+                    items.push("<strong>Goal: Sustainable Reduction.</strong> Focus on creating a small, consistent caloric deficit (250-500 kcal daily) for gradual, healthy body fat loss.");
+                    items.push("<strong>Resistance Training Focus (1-3x/week):</strong> Start with beginner-friendly sessions focused on <strong>full-body compound movements</strong>. Prioritize <strong>correct, safe form</strong> and moderate weight/volume.");
+                    items.push("Include low-impact physical activity (e.g., daily walking) and gradually increase intensity and duration.");
+                    items.push("<strong>Consult with a professional</strong> for a safe, personalized weight management plan, especially if you have health concerns.");
                 }
-
-                return items.map(i => `<li>${i}</li>`).join('');
+                return items.map(item => `<li>${item}</li>`).join('');
             }
 
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 let neckIn, waistIn, heightIn, hipIn, weightVal;
-                
                 if (currentUnit === 'metric') {
                     neckIn = parseFloat(inputNeck.value) * CM_TO_IN;
                     waistIn = parseFloat(inputWaist.value) * CM_TO_IN;
@@ -639,59 +594,46 @@
                     hipIn = parseFloat(inputHip.value || 0) * CM_TO_IN;
                     weightVal = parseFloat(inputWeight.value);
                 } else {
-                    neckIn = parseFloat(inputNeck.value);
-                    waistIn = parseFloat(inputWaist.value);
-                    heightIn = (parseFloat(inputHeightFt.value) * 12) + parseFloat(inputHeightIn.value);
-                    hipIn = parseFloat(inputHip.value || 0);
-                    weightVal = parseFloat(inputWeight.value);
+                    neckIn = parseFloat(inputNeck.value); waistIn = parseFloat(inputWaist.value);
+                    heightIn = (parseFloat(inputHeightFt.value || 0) * 12) + parseFloat(inputHeightIn.value || 0);
+                    hipIn = parseFloat(inputHip.value || 0); weightVal = parseFloat(inputWeight.value);
                 }
-
-                let bf = 0;
+                if (isNaN(neckIn) || isNaN(waistIn) || isNaN(heightIn)) return;
                 const gender = genderSelect.value;
-                if (gender === 'male') {
-                    bf = 86.010 * Math.log10(waistIn - neckIn) - 70.041 * Math.log10(heightIn) + 36.76;
-                } else {
-                    bf = 163.205 * Math.log10(waistIn + hipIn - neckIn) - 97.684 * Math.log10(heightIn) - 78.387;
-                }
-
-                bf = Math.max(2, Math.min(bf, 60));
+                let bf = (gender === 'male') ? 86.010 * Math.log10(waistIn - neckIn) - 70.041 * Math.log10(heightIn) + 36.76 
+                                            : 163.205 * Math.log10(waistIn + hipIn - neckIn) - 97.684 * Math.log10(heightIn) - 78.387;
+                bf = Math.max(5, Math.min(bf, 50));
                 document.getElementById('bf-percentage').textContent = bf.toFixed(1) + '%';
                 
-                let category = "Average";
+                let category = "Acceptable";
                 if (gender === 'male') {
-                    if (bf < 6) category = "Essential Fat";
-                    else if (bf < 14) category = "Athlete";
-                    else if (bf < 18) category = "Fitness";
-                    else if (bf < 25) category = "Average";
-                    else category = "Obese";
+                    if (bf < 6) category = 'Essential Fat';
+                    else if (bf <= 13) category = 'Athletic';
+                    else if (bf <= 17) category = 'Fitness';
+                    else if (bf <= 24) category = 'Acceptable';
+                    else category = 'High/Obese';
                 } else {
-                    if (bf < 14) category = "Essential Fat";
-                    else if (bf < 21) category = "Athlete";
-                    else if (bf < 25) category = "Fitness";
-                    else if (bf < 32) category = "Average";
-                    else category = "Obese";
+                    if (bf < 14) category = 'Essential Fat';
+                    else if (bf <= 20) category = 'Athletic';
+                    else if (bf <= 24) category = 'Fitness';
+                    else if (bf <= 31) category = 'Acceptable';
+                    else category = 'High/Obese';
                 }
 
-                // Composition Logic
                 const fatMass = weightVal * (bf / 100);
                 const leanMass = weightVal - fatMass;
                 const unitLabel = currentUnit === 'metric' ? 'kg' : 'lbs';
-
                 document.getElementById('fat-mass-display').textContent = `${fatMass.toFixed(1)} ${unitLabel}`;
                 document.getElementById('lean-mass-display').textContent = `${leanMass.toFixed(1)} ${unitLabel}`;
                 document.getElementById('bf-traditional-category').textContent = category;
-                
-                // Content Combination
-                document.getElementById('result-interpretation').innerHTML = generateInterpretation(gender, bf, category);
+                document.getElementById('result-interpretation-combined').innerHTML = generateInterpretation(gender, bf, category);
                 document.getElementById('guidance-list').innerHTML = generateGuidance(category);
-
                 resultsDiv.classList.remove('hidden');
                 resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
             
             document.getElementById('reset-btn').onclick = () => {
-                form.reset();
-                resultsDiv.classList.add('hidden');
+                form.reset(); resultsDiv.classList.add('hidden');
                 hipInputContainer.classList.remove('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
