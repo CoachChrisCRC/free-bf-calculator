@@ -254,20 +254,20 @@
                 
                 <label class="block">
                     <span class="text-xs font-black uppercase tracking-wider block mb-1.5 ml-1" id="label-weight" style="color: var(--text-muted)">Weight (kg)</span>
-                    <input type="number" id="weight" min="1" max="2200" step="0.1" placeholder="e.g. 80.5" class="w-full text-sm font-medium" required>
+                    <input type="number" id="weight" min="1" max="2200" step="0.1" placeholder="e.g. 75.0" class="w-full text-sm font-medium" required>
                 </label>
 
                 <div id="height-container">
                     <span class="text-xs font-black uppercase tracking-wider block mb-1.5 ml-1" id="label-height" style="color: var(--text-muted)">Height (cm)</span>
                     <div id="metric-height-box">
-                        <input type="number" id="height_cm" min="10" max="300" step="0.1" placeholder="e.g. 180" class="w-full text-sm font-medium">
+                        <input type="number" id="height_cm" min="10" max="300" step="0.1" placeholder="e.g. 178" class="w-full text-sm font-medium">
                     </div>
                     <div id="imperial-height-box" class="hidden flex gap-2">
                         <div class="flex-1">
-                            <input type="number" id="height_ft" min="1" max="9" placeholder="Ft (e.g. 5)" class="w-full text-sm font-medium">
+                            <input type="number" id="height_ft" min="1" max="9" placeholder="ft (5)" class="w-full text-sm font-medium">
                         </div>
                         <div class="flex-1">
-                            <input type="number" id="height_in" min="0" max="11.9" step="0.1" placeholder="In (e.g. 10)" class="w-full text-sm font-medium">
+                            <input type="number" id="height_in" min="0" max="11.9" step="0.1" placeholder="in (10)" class="w-full text-sm font-medium">
                         </div>
                     </div>
                 </div>
@@ -279,7 +279,7 @@
                             <i data-lucide="info" class="w-4 h-4"></i>
                         </button>
                     </div>
-                    <input type="number" id="neck" min="1" max="300" step="0.1" placeholder="e.g. 40.0" class="w-full text-sm font-medium" required>
+                    <input type="number" id="neck" min="1" max="300" step="0.1" placeholder="e.g. 38.5" class="w-full text-sm font-medium" required>
                 </div>
 
                 <div id="waist-input-group">
@@ -289,7 +289,7 @@
                             <i data-lucide="info" class="w-4 h-4"></i>
                         </button>
                     </div>
-                    <input type="number" id="waist" min="1" max="400" step="0.1" placeholder="e.g. 90.0" class="w-full text-sm font-medium" required>
+                    <input type="number" id="waist" min="1" max="400" step="0.1" placeholder="e.g. 84.0" class="w-full text-sm font-medium" required>
                 </div>
                 
                 <div id="hip-input-container" class="input-group-transition">
@@ -299,7 +299,7 @@
                             <i data-lucide="info" class="w-4 h-4"></i>
                         </button>
                     </div>
-                    <input type="number" id="hip" min="1" max="400" step="0.1" placeholder="e.g. 100.0" class="w-full text-sm font-medium">
+                    <input type="number" id="hip" min="1" max="400" step="0.1" placeholder="e.g. 96.0" class="w-full text-sm font-medium">
                 </div>
 
                 <button type="submit" class="w-full mt-6 py-4 text-base font-black uppercase tracking-widest rounded-xl transition-all shadow-lg active:scale-[0.98]" style="background-color: var(--bg-btn-primary); color: var(--btn-text-primary)">
@@ -520,6 +520,13 @@
                     labelWeight.textContent = 'Weight (kg)'; labelHeight.textContent = 'Height (cm)';
                     labelNeck.textContent = 'Neck (cm)'; labelWaist.textContent = 'Waist (cm)'; labelHip.textContent = 'Hips (cm)';
                     inputHeightCm.required = true;
+                    
+                    // Update Metric Placeholders
+                    inputWeight.placeholder = "e.g. 75.0";
+                    inputHeightCm.placeholder = "e.g. 178";
+                    inputNeck.placeholder = "e.g. 38.5";
+                    inputWaist.placeholder = "e.g. 84.0";
+                    inputHip.placeholder = "e.g. 96.0";
                 } else {
                     btnImperial.classList.replace('unit-btn-inactive', 'unit-btn-active');
                     btnMetric.classList.replace('unit-btn-active', 'unit-btn-inactive');
@@ -528,6 +535,14 @@
                     labelWeight.textContent = 'Weight (lbs)'; labelHeight.textContent = 'Height (ft/in)';
                     labelNeck.textContent = 'Neck (in)'; labelWaist.textContent = 'Waist (in)'; labelHip.textContent = 'Hips (in)';
                     inputHeightCm.required = false;
+
+                    // Update Imperial Placeholders
+                    inputWeight.placeholder = "e.g. 165.0";
+                    inputHeightFt.placeholder = "ft (5)";
+                    inputHeightIn.placeholder = "in (10)";
+                    inputNeck.placeholder = "e.g. 15.0";
+                    inputWaist.placeholder = "e.g. 33.0";
+                    inputHip.placeholder = "e.g. 38.0";
                 }
             };
 
